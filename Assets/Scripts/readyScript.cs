@@ -7,6 +7,7 @@ public class readyScript : MonoBehaviour
 {
     //instantiate types of cards
     public GameObject card;
+    public GameObject card2;
 
     List<GameObject> cards = new List<GameObject>();
 
@@ -15,8 +16,11 @@ public class readyScript : MonoBehaviour
     public GameObject selectButton;
 
     public GameObject canvas;
-    public GameObject playerArea; 
-    /*
+    public GameObject playerArea;
+    public GameObject dropzone;
+
+    /*private string packname = "-Omori";
+    
     * public GameObject enemyArea1;
     * public GameObject enemyArea2;
     * public GameObject enemyArea3;*/
@@ -28,10 +32,13 @@ public class readyScript : MonoBehaviour
 
     {
         //Add all the cards ill just use a loop here
-        /* card.GetComponent<Image>().sprite = Resources.Load<Sprite>([packName] + "nameSprite"); */
+        /* card.GetComponent<Image>().sprite = Resources.Load<Sprite>([packName] + "nameSprite"); 
+        card.GetComponent<Image>().sprite = Resources.Load<Sprite>("Joker"+ packname);*/
+
         canvas = GameObject.Find("Main Canvas");
         cards.Add(card);
         cards.Add(card); cards.Add(card); cards.Add(card); cards.Add(card); cards.Add(card); //Delete this when done testing
+        cards.Add(card2); cards.Add(card2); cards.Add(card2); cards.Add(card2); cards.Add(card2); cards.Add(card2);
 
     }
 
@@ -67,6 +74,9 @@ public class readyScript : MonoBehaviour
 
         GameObject playerPass = Instantiate(passButton, new Vector2(634, -313), Quaternion.identity);
         playerPass.transform.SetParent(canvas.transform, false);
+
+        GameObject dropPlace = Instantiate(dropzone, new Vector2(0, 0), Quaternion.identity);
+        dropPlace.transform.SetParent(canvas.transform, false);
 
 
     }

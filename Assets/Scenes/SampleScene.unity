@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedTag: null
+  amountSelected: 0
 --- !u!1 &1517538356 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6726877878850608972, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
@@ -590,7 +591,7 @@ PrefabInstance:
     - target: {fileID: -9209917197532400154, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
       propertyPath: card2
       value: 
-      objectReference: {fileID: 2595858335853258357, guid: d1e7459b215530141b3836ceb8151666, type: 3}
+      objectReference: {fileID: 9050525308262409165, guid: 2864c5f7fe7f0d04a91444e087affcf9, type: 3}
     - target: {fileID: -9209917197532400154, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
       propertyPath: card3
       value: 
@@ -607,6 +608,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1315861969}
+    - target: {fileID: -9209917197532400154, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
+      propertyPath: dropzone
+      value: 
+      objectReference: {fileID: 7666586108318215598, guid: 328b037d0d907674c9772a8ede35977b, type: 3}
     - target: {fileID: -9209917197532400154, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
       propertyPath: myButton
       value: 
@@ -714,6 +719,22 @@ PrefabInstance:
     - target: {fileID: 6726877878850608973, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726877878850608974, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726877878850608975, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726877878850608975, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726877878850608975, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce82c6b017b46d049b8b249692de9c50, type: 3}

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class SelectCard : MonoBehaviour
 {
     private bool isSelect = false;
-    public Text theTag;
 
     public void onclick()
     {
