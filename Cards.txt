@@ -1,0 +1,90 @@
+240/354
+Spades:
+Ace = Basil
+2 = Hero and mari
+3 = 
+4 = 
+5 = 
+6 = 
+7 = 
+8 = 
+9 = 
+10 = All out Attack!!! 
+Jack = Kel
+Queen = Aubrey
+King = Omori
+
+Clubs:
+Ace = 
+2 = 
+3 = 
+4 = 
+5 = 
+6 = 
+7 = 
+8 = 
+9 = 
+10 = 
+Jack = 
+Queen = 
+King = 
+
+Diamonds:
+Ace = Pluto
+2 = 
+3 = 
+4 = 
+5 = 
+6 = 
+7 = 
+8 = 
+9 = 
+10 = 
+Jack = Pink beard
+Queen = 
+King = Space Boyfriend
+
+Hearts:
+Ace = Rosa
+2 = Horse Head / Butt
+3 = 
+4 = Sir Maximus I, II, III, IV
+5 = 
+6 = 
+7 = 
+8 = 
+9 = 
+10 = 
+Jack = Sprout Mole Mike
+Queen = Sweatheart
+King = Rococo
+
+Joker:
+Joker1 = Something
+Joker2 = Stranger
+
+
+Characters:
+Sprout Moles
+Marsha
+Therese
+Lucious
+Harold
+
+
+
+
+Space Pirate
+
+
+
+Medusa (green)
+Molly (white)
+Marina (red)
+
+
+
+
+Hero
+Mari
+Basil
