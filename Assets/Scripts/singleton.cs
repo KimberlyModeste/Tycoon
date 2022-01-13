@@ -9,6 +9,7 @@ public class singleton : MonoBehaviour
     public string selectedTag = "null";
     public int amountSelected = 0;
     public List<string> holder = new List<string>();
+    public List<GameObject> cardsSet = new List<GameObject>();
 
     private void Start()
     {

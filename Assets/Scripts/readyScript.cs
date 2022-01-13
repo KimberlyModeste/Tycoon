@@ -69,6 +69,7 @@ public class readyScript : MonoBehaviour
 
 
     List<GameObject> cards = new List<GameObject>();
+    List<GameObject> cardsSet = new List<GameObject>();
 
     public GameObject readyButton;
     public GameObject selectButton;
@@ -199,38 +200,30 @@ public class readyScript : MonoBehaviour
         
         if (singleton.Instance.amountSelected > 0 )
         {
-           
-            //selectButton.GetComponent<Text>().text = "Select Card";
-            //add cards to dropzone
-
-            foreach (GameObject name in cards)//singleton.instance.holder)
+            //Add cards to dropzone
+            foreach (GameObject name in singleton.Instance.cardsSet)
             {
+              
                 for (int i = 0; i < singleton.Instance.holder.Count; i++)
                 {
-                    
 
                     if (name.ToString() == singleton.Instance.holder[i])
                     {
-                        GameObject playerCard = Instantiate(name, new Vector3(0, 0, 0), Quaternion.identity);
-                        playerCard.transform.SetParent(dropzone.transform, false);
-
-                        //  name.transform.SetParent(dropzone.transform, false);
+                         name.transform.SetParent(dropzone.transform, false);
                     }
-                        
+
                 }
-                //temp = cards.transform.ind(name);
-                ////temp.setparent(dropzone.transform, false);
-                //debug.log(name.find("khcard"));
+                
             }
 
-           // Debug.Log(cards.Find("KHcard"));
+            singleton.Instance.selectedTag = "null";
+            singleton.Instance.amountSelected = 0;
+            singleton.Instance.holder.Clear();
 
         }
         else
         {
             Debug.Log("I'll make a pass");
-           
-            //Add a warning that there is no cards selected
         }
     }
 
@@ -262,7 +255,8 @@ public class readyScript : MonoBehaviour
             GameObject rand = cards[playerRand[i]];
             GameObject playerCard = Instantiate(rand, new Vector3(0, 0, 0), Quaternion.identity);
             playerCard.transform.SetParent(playerArea.transform, false);
-
+            singleton.Instance.cardsSet.Add(playerCard);
+           
             /*
            GameObject enemy1Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
            enemy1Card.transform.SetParent(enemyArea1.transform, false);
@@ -273,7 +267,7 @@ public class readyScript : MonoBehaviour
            GameObject enemy3Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
            enemy3Card.transform.SetParent(enemyArea3.transform, false);
 
-        */ 
+        */
         }
         //GameObject playerSelect = Instantiate(selectButton, new Vector2(634, -230), Quaternion.identity);
         //playerSelect.transform.SetParent(canvas.transform, false);
