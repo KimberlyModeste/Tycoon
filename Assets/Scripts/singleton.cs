@@ -8,6 +8,8 @@ public class singleton : MonoBehaviour
 
     public string selectedTag = "null";
     public int amountSelected = 0;
+    public List<string> holder = new List<string>();
+
     private void Start()
     {
         if(Instance == null)

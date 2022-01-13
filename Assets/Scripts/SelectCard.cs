@@ -5,7 +5,15 @@ using UnityEngine.UI;
 
 public class SelectCard : MonoBehaviour
 {
+
     private bool isSelect = false;
+    public GameObject selectButton;
+
+    void Start()
+    {
+        selectButton = GameObject.Find("Select Button");
+    }
+
 
     public void onclick()
     {
@@ -15,34 +23,40 @@ public class SelectCard : MonoBehaviour
             selectCard();
     }
 
-    public void deselectCard()
+    private void deselectCard()
     {
-        transform.position = new Vector2(transform.position.x, 97);
+        string temp;
+        transform.position = new Vector2(transform.position.x, transform.position.y - 60); //97
         isSelect = false;
         singleton.Instance.amountSelected -= 1;
 
         if (singleton.Instance.amountSelected == 0)
+        {
             singleton.Instance.selectedTag = "null";
-
+            selectButton.transform.GetChild(0).GetComponent<Text>().text = "Pass";
+        }
+           
+        temp = transform.name.Replace("(Clone)", " (UnityEngine.GameObject)");
+        singleton.Instance.holder.Remove(temp);
         Debug.Log(singleton.Instance.amountSelected);
     }
 
-    public void selectCard()
+    private void selectCard()
     {
-
-        if (singleton.Instance.selectedTag == "null")
+        string temp;
+        if (singleton.Instance.selectedTag == "null" || singleton.Instance.selectedTag == "Joker")
         {
             singleton.Instance.selectedTag = this.tag;
         }
 
-        if (singleton.Instance.selectedTag == this.tag && isSelect != true)
+        if ((singleton.Instance.selectedTag == this.tag || this.tag == "Joker") && isSelect != true)
         {
             isSelect = true;
-            transform.position = new Vector2(transform.position.x, 137);
+            transform.position = new Vector2(transform.position.x, transform.position.y + 60);
             singleton.Instance.amountSelected += 1;
-            Debug.Log(singleton.Instance.amountSelected);
-
-
+            temp = transform.name.Replace("(Clone)", " (UnityEngine.GameObject)");
+            singleton.Instance.holder.Add(temp);
+            selectButton.transform.GetChild(0).GetComponent<Text>().text = "Select Card";
         }
     }
 }

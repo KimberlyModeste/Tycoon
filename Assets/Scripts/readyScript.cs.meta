@@ -3,7 +3,66 @@ guid: e251d277c83855e4db4233c48782a263
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ACcard: {fileID: 9182656720542310943, guid: b889d333a1e54c14399ffcbfbc1c52ac, type: 3}
+  - TwoCcard: {fileID: 1973084024213474863, guid: 386070b52bf100944b1207525545d07a, type: 3}
+  - ThreeCcard: {fileID: 1025032173101697005, guid: 7b4e21252479f624aa58626c2264f9aa, type: 3}
+  - FourCcard: {fileID: 3656995561890648188, guid: 1f9794606993058438005435e15c4ab4, type: 3}
+  - FiveCcard: {fileID: 2006234738909748243, guid: d83b80804c8117645a6430e2a0c2beb2, type: 3}
+  - SixCcard: {fileID: 2197296205618149793, guid: 48ef7ec75493e134aad0dd610fefe2c4, type: 3}
+  - SevenCcard: {fileID: 391573734680289431, guid: 78e7fb0f6f0727043a3aa60f210ea690, type: 3}
+  - EightCcard: {fileID: 3728765895515243719, guid: 6e841f35b3aee8b48b452c4276324379, type: 3}
+  - NineCcard: {fileID: 4217303667234220620, guid: b2043342018695c4390a93ce6693b0cc, type: 3}
+  - TenCcard: {fileID: 3680753913078851710, guid: 2e6728f76c49d294dbc0bb6536d73ca1, type: 3}
+  - JCcard: {fileID: 4742331001425633872, guid: 4d95b08e9c61ac6499fa942a1a2bdfd2, type: 3}
+  - QCcard: {fileID: 610124675557476462, guid: 0134fd66fc2580948b24ca5ae4c40492, type: 3}
+  - KCcard: {fileID: 136362226578380, guid: ff8969c09802dcd44a94fcb4a21a614f, type: 3}
+  - AScard: {fileID: 6269104563529927768, guid: 0faa0bab7ed0bb0419c4f889dc65923b, type: 3}
+  - TwoScard: {fileID: 6418432957948689713, guid: 61cf294dda86c15429ff53818820b514, type: 3}
+  - ThreeScard: {fileID: 99259692885999219, guid: 0de94ea6b87757243910da4125153734, type: 3}
+  - FourScard: {fileID: 1067459962063832028, guid: 4f5de885332763f4da2dd96808e64371, type: 3}
+  - FiveScard: {fileID: 4045224992828631620, guid: 999074db91cacec46933fe492e5748e6, type: 3}
+  - SixScard: {fileID: 5680946750060781759, guid: 0963343fd74c22944a54216cb058ba1c, type: 3}
+  - SevenScard: {fileID: 4686071244794107255, guid: 38ff7199c0d89ac44b6bf8020de7ae0a, type: 3}
+  - EightScard: {fileID: 7594573742020957396, guid: d2e92bb58af4eb54f96520f044d525e0, type: 3}
+  - NineScard: {fileID: 5501869080530130945, guid: 749d31fa79d9d5349b6c8940f8fa3143, type: 3}
+  - TenScard: {fileID: 515486156767876454, guid: 3635f6636ce2e4945a666bd000d4a479, type: 3}
+  - JScard: {fileID: 4753840965632640290, guid: 2acace207cd4ca5458502ca38318c283, type: 3}
+  - QScard: {fileID: 7507794790539841214, guid: 4e2866db0f7f85342853ddcf932a08e2, type: 3}
+  - KScard: {fileID: 1055271841265034809, guid: df768c7c1a49c5145b6788ec4ff46130, type: 3}
+  - ADcard: {fileID: 5859895873144724726, guid: e2034302083888b4c9757dc5bcb04150, type: 3}
+  - TwoDcard: {fileID: 2025870312450792129, guid: afae06928f8df034997f90790e852d1f, type: 3}
+  - ThreeDcard: {fileID: 3023659356380156838, guid: 48397f14656cb6743be38961215576fc, type: 3}
+  - FourDcard: {fileID: 6977537280680401395, guid: be445219092f86f4aa2485391a1d9e3f, type: 3}
+  - FiveDcard: {fileID: 2617742814909379563, guid: 0e880fcdef9ce504f991d222403e66b8, type: 3}
+  - SixDcard: {fileID: 255443040156005808, guid: d93cd51ee311cab4f96ec8c9a9838522, type: 3}
+  - SevenDcard: {fileID: 1744531698346740481, guid: b6bbae2b0ea48b04b91c15705c95eebc, type: 3}
+  - EightDcard: {fileID: 2968253861281495641, guid: fbb0c7858ed5ee647980a2497351a5fb, type: 3}
+  - NineDcard: {fileID: 5078516588181064328, guid: 32879fcc38066ef478bbcb5a60e8a41a, type: 3}
+  - TenDcard: {fileID: 5882553013310133363, guid: 31f480f4368c080409bc238c07b81445, type: 3}
+  - JDcard: {fileID: 517072581527687145, guid: 5d42c1a55155a7348a07393713f4998e, type: 3}
+  - QDcard: {fileID: 3996383758316578318, guid: e3cbd8a812213964fa3bf3d0fa141513, type: 3}
+  - KDcard: {fileID: 115845811555328434, guid: a4fc3cd90fa38ea48a2e89a1ed0c43ea, type: 3}
+  - AHcard: {fileID: 2113893482046932075, guid: 5394f08990496ff44b8ccacfa6ae01e0, type: 3}
+  - TwoHcard: {fileID: 699213850635208097, guid: f6150586a58c0054eb91e20c7fed0db5, type: 3}
+  - ThreeHcard: {fileID: 3535663249980962812, guid: f20a4d87ee096d6428bc73a77cb55df3, type: 3}
+  - FourHcard: {fileID: 4742342592947519424, guid: 9e690da87315e0b459b518704a9f1f59, type: 3}
+  - FiveHcard: {fileID: 3950312392910203367, guid: ed4410dce3129904596b76592e136ac2, type: 3}
+  - SixHcard: {fileID: 3578865046183355889, guid: 26a15b9f495dbaa49a60d12f5ff00b1f, type: 3}
+  - SevenHcard: {fileID: 2528697311958776188, guid: af74725fb22b9ab4482a70a94805b9fc, type: 3}
+  - EightHcard: {fileID: 6447643923321486632, guid: 5cb97dddd12830b4ca8f54f7ddb2919b, type: 3}
+  - NineHcard: {fileID: 5411501905702268111, guid: a3068b9254af3754dbc2c296166deaef, type: 3}
+  - TenHcard: {fileID: 6966818640336609482, guid: 64973996b49bfae44a7d43071107701b, type: 3}
+  - JHcard: {fileID: 4113719737690123644, guid: 09932628d97ca0349ace24d18f22fb84, type: 3}
+  - QHcard: {fileID: 34415896470452711, guid: f6cc2184d830c6740bf97c5db0dcae2a, type: 3}
+  - KHcard: {fileID: 9030883876085828052, guid: 246d4a167927b0743b6085eb6e2a041e, type: 3}
+  - Joker1: {fileID: 3121888042784840886, guid: fa08344feb95ef84bbdf33f2ba61e068, type: 3}
+  - Joker2: {fileID: 5278320950672447142, guid: 2f6d2771446025d429857a10761afef9, type: 3}
+  - readyButton: {instanceID: 0}
+  - selectButton: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  - playerArea: {instanceID: 0}
+  - dropzone: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
