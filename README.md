@@ -3,11 +3,11 @@ This project is a multiplayer version of the game Tycoon from Persona 5 Royal us
 
 # Rules
 ## Titles
-Commoner - Everyone is a Commoner in the beginning of the game.
-Tycoon - Someone who gets rid of their cards first. Has to give two of their cards to the beggar.
-Rich - Someone who gets rid of their cards second. Has to give one of their cards to the poor.
-Poor - Someone who gets rid of their cards third. Has to give their best cards to the rich.
-Beggar - Loser of the round. Has to give 2 of their best cards to the Tycoon.
+Commoner: Everyone is a Commoner in the beginning of the game.
+Tycoon: Someone who gets rid of their cards first. Has to give two of their cards to the beggar.
+Rich: Someone who gets rid of their cards second. Has to give one of their cards to the poor.
+Poor: Someone who gets rid of their cards third. Has to give their best cards to the rich.
+Beggar: Loser of the round. Has to give 2 of their best cards to the Tycoon.
 
 ## Turns
 - The First person to play determines how many cards others play. Ex. If the first player plays a single card then all players must play single cards. If they play pairs then all others play pairs. Same with more cards.
