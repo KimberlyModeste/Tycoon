@@ -1,9 +1,9 @@
 # Tycoon With Friends
 This project is a multiplayer version of the game Tycoon from Persona 5 Royal using Unity and Mirror. I went along with a tutorial which was close enough to my project to help. 
 
+# Rules
 ## Titles
 Commoner - Everyone is a Commoner in the beginning of the game.
-
 Tycoon - Someone who gets rid of their cards first. Has to give two of their cards to the beggar.
 Rich - Someone who gets rid of their cards second. Has to give one of their cards to the poor.
 Poor - Someone who gets rid of their cards third. Has to give their best cards to the rich.
