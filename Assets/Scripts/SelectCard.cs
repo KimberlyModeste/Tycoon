@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class SelectCard : MonoBehaviour
+using Mirror;
+public class SelectCard : NetworkBehaviour
 {
+    public PlayerManagerSC playerManager;
 
     private bool isSelect = false;
+    private bool isSelectable = true;
     public GameObject selectButton;
     public GameObject gameArea;
+    public GameObject dropzone;
 
     void Start()
     {
         selectButton = GameObject.Find("Select Button");
         gameArea = GameObject.Find("GameArea");
-    }
+        dropzone = GameObject.Find("Dropzone");
+        if(!hasAuthority)
+        {
+            isSelectable = false;
+        }
 
+    }
 
     public void onclick()
     {
@@ -26,7 +34,9 @@ public class SelectCard : MonoBehaviour
     }
 
     private void deselectCard()
-    {
+    { 
+        if (!isSelectable) return;
+
         string temp;
         if (transform.parent == gameArea.transform)
         {
@@ -42,12 +52,13 @@ public class SelectCard : MonoBehaviour
 
             temp = transform.name.Replace("(Clone)", "(Clone) (UnityEngine.GameObject)");
             singleton.Instance.holder.Remove(temp);
-            Debug.Log(singleton.Instance.amountSelected);
         }
     }
 
     private void selectCard()
     {
+        if (!isSelectable) return;
+
         string temp;
         if (transform.parent == gameArea.transform)
         {
@@ -67,4 +78,40 @@ public class SelectCard : MonoBehaviour
             }
         }
     }
+
+    public void onSelect()
+    {
+        if (singleton.Instance.amountSelected > 0)
+        {
+            //Add cards to dropzone
+            foreach (GameObject name in singleton.Instance.cardsSet)
+            {
+
+                for (int i = 0; i < singleton.Instance.holder.Count; i++)
+                {
+
+                    if (name.ToString() == singleton.Instance.holder[i])
+                    {
+                       // name.transform.SetParent(dropzone.transform, false);
+                        isSelectable = false;
+                        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+                        playerManager = networkIdentity.GetComponent<PlayerManagerSC>();
+                        playerManager.PlayCards(name);
+                    }
+
+                }
+
+            }
+
+            singleton.Instance.selectedTag = "null";
+            singleton.Instance.amountSelected = 0;
+            singleton.Instance.holder.Clear();
+            selectButton.transform.GetChild(0).GetComponent<Text>().text = "Pass";
+        }
+        else
+        {
+            selectButton.transform.GetChild(0).GetComponent<Text>().text = "Pass";
+        }
+    }
+
 }

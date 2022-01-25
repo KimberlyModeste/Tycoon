@@ -4,6 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - PlayerManager: {fileID: 195269732666731816, guid: 973e3304f4af6934882fdc1598bb15d0, type: 3}
   - ACcard: {fileID: 9182656720542310943, guid: b889d333a1e54c14399ffcbfbc1c52ac, type: 3}
   - TwoCcard: {fileID: 1973084024213474863, guid: 386070b52bf100944b1207525545d07a, type: 3}
   - ThreeCcard: {fileID: 1025032173101697005, guid: 7b4e21252479f624aa58626c2264f9aa, type: 3}
@@ -62,7 +63,6 @@ MonoImporter:
   - selectButton: {instanceID: 0}
   - canvas: {instanceID: 0}
   - playerArea: {instanceID: 0}
-  - dropzone: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

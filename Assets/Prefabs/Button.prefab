@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 8307572737012720076}
   - component: {fileID: 8307572737012720067}
   - component: {fileID: 8307572737012720066}
-  - component: {fileID: 4164026882083699218}
+  - component: {fileID: -4404133025711531303}
+  - component: {fileID: -5747936266840708236}
+  - component: {fileID: -6624329033164599033}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -122,7 +124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4164026882083699218}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: readyScript, Assembly-CSharp
         m_MethodName: onClick
         m_Mode: 1
@@ -134,7 +136,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4164026882083699218
+--- !u!114 &-4404133025711531303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e251d277c83855e4db4233c48782a263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  PlayerManager: {fileID: 0}
   ACcard: {fileID: 9182656720542310943, guid: b889d333a1e54c14399ffcbfbc1c52ac, type: 3}
   TwoCcard: {fileID: 1973084024213474863, guid: 386070b52bf100944b1207525545d07a, type: 3}
   ThreeCcard: {fileID: 1025032173101697005, guid: 7b4e21252479f624aa58626c2264f9aa, type: 3}
@@ -200,11 +205,61 @@ MonoBehaviour:
   KHcard: {fileID: 9030883876085828052, guid: 246d4a167927b0743b6085eb6e2a041e, type: 3}
   Joker1: {fileID: 3121888042784840886, guid: fa08344feb95ef84bbdf33f2ba61e068, type: 3}
   Joker2: {fileID: 5278320950672447142, guid: 2f6d2771446025d429857a10761afef9, type: 3}
-  readyButton: {fileID: 8307572737012720064}
+  readyButton: {fileID: 0}
   selectButton: {fileID: 0}
   canvas: {fileID: 0}
   playerArea: {fileID: 0}
-  dropzone: {fileID: 0}
+--- !u!114 &-5747936266840708236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307572737012720064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 188f6e08028684c4d820e16e67a6645d
+  hasSpawned: 0
+--- !u!114 &-6624329033164599033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307572737012720064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &8307572737035061523
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +271,6 @@ GameObject:
   - component: {fileID: 8307572737035061532}
   - component: {fileID: 8307572737035061535}
   - component: {fileID: 8307572737035061534}
-  - component: {fileID: 8307572737035061533}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -285,74 +339,3 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: READY!
---- !u!114 &8307572737035061533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8307572737035061523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e251d277c83855e4db4233c48782a263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ACcard: {fileID: 0}
-  TwoCcard: {fileID: 0}
-  ThreeCcard: {fileID: 0}
-  FourCcard: {fileID: 0}
-  FiveCcard: {fileID: 0}
-  SixCcard: {fileID: 0}
-  SevenCcard: {fileID: 0}
-  EightCcard: {fileID: 0}
-  NineCcard: {fileID: 0}
-  TenCcard: {fileID: 0}
-  JCcard: {fileID: 0}
-  QCcard: {fileID: 0}
-  KCcard: {fileID: 0}
-  AScard: {fileID: 0}
-  TwoScard: {fileID: 0}
-  ThreeScard: {fileID: 0}
-  FourScard: {fileID: 0}
-  FiveScard: {fileID: 0}
-  SixScard: {fileID: 0}
-  SevenScard: {fileID: 0}
-  EightScard: {fileID: 0}
-  NineScard: {fileID: 0}
-  TenScard: {fileID: 0}
-  JScard: {fileID: 0}
-  QScard: {fileID: 0}
-  KScard: {fileID: 0}
-  ADcard: {fileID: 0}
-  TwoDcard: {fileID: 0}
-  ThreeDcard: {fileID: 0}
-  FourDcard: {fileID: 0}
-  FiveDcard: {fileID: 0}
-  SixDcard: {fileID: 0}
-  SevenDcard: {fileID: 0}
-  EightDcard: {fileID: 0}
-  NineDcard: {fileID: 0}
-  TenDcard: {fileID: 0}
-  JDcard: {fileID: 0}
-  QDcard: {fileID: 0}
-  KDcard: {fileID: 0}
-  AHcard: {fileID: 0}
-  TwoHcard: {fileID: 0}
-  ThreeHcard: {fileID: 0}
-  FourHcard: {fileID: 0}
-  FiveHcard: {fileID: 0}
-  SixHcard: {fileID: 0}
-  SevenHcard: {fileID: 0}
-  EightHcard: {fileID: 0}
-  NineHcard: {fileID: 0}
-  TenHcard: {fileID: 0}
-  JHcard: {fileID: 0}
-  QHcard: {fileID: 0}
-  KHcard: {fileID: 0}
-  Joker1: {fileID: 0}
-  Joker2: {fileID: 0}
-  readyButton: {fileID: 0}
-  selectButton: {fileID: 0}
-  canvas: {fileID: 0}
-  playerArea: {fileID: 0}
-  dropzone: {fileID: 0}

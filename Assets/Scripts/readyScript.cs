@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class readyScript : MonoBehaviour
+public class readyScript : NetworkBehaviour
 {
+
+    public PlayerManagerSC PlayerManager;
     //instantiate types of cards
     //Clubs
     public GameObject ACcard;
@@ -68,15 +71,14 @@ public class readyScript : MonoBehaviour
     public GameObject Joker2;
 
 
+
     List<GameObject> cards = new List<GameObject>();
-    List<GameObject> cardsSet = new List<GameObject>();
 
     public GameObject readyButton;
     public GameObject selectButton;
 
     public GameObject canvas;
     public GameObject playerArea;
-    public GameObject dropzone;
 
     private string packname = "Standard";
     //C D H S
@@ -162,21 +164,7 @@ public class readyScript : MonoBehaviour
         canvas = GameObject.Find("Main Canvas");
         selectButton.SetActive(false);
 
-        //Adding all the cards to the deck in order 
-        //C D H S
-
-        //for (int i = 0; i < 54; i++) 
-        //{
-        //    GameObject card = Instantiate(ACcard, new Vector2(0, 0), Quaternion.identity);
-        //    card.GetComponent<Image>().sprite = Resources.Load<Sprite>(packname + cardNames[i]);
-        //    if(cardNames[i][1] != "A")
-        //    card.tag = cardNames[i][1].ToString();
-        //    else
-        //    card.tag ="Ace";
-        //    cards.Add(card);
-        //}
-
-
+        
         cards.Add(ThreeCcard); cards.Add(ThreeDcard); cards.Add(ThreeHcard); cards.Add(ThreeScard);
         cards.Add(FourCcard); cards.Add(FourDcard); cards.Add(FourHcard); cards.Add(FourScard);
         cards.Add(FiveCcard); cards.Add(FiveDcard); cards.Add(FiveHcard); cards.Add(FiveScard);
@@ -193,92 +181,127 @@ public class readyScript : MonoBehaviour
         cards.Add(Joker1); cards.Add(Joker2);
 
 
-    }
 
-    public void onSelect()
-    {
-        
-        if (singleton.Instance.amountSelected > 0 )
-        {
-            //Add cards to dropzone
-            foreach (GameObject name in singleton.Instance.cardsSet)
-            {
-              
-                for (int i = 0; i < singleton.Instance.holder.Count; i++)
-                {
+        //Adding all the cards to the deck in order 
+        //C D H S
 
-                    if (name.ToString() == singleton.Instance.holder[i])
-                    {
-                         name.transform.SetParent(dropzone.transform, false);
-                    }
-
-                }
-                
-            }
-
-            singleton.Instance.selectedTag = "null";
-            singleton.Instance.amountSelected = 0;
-            singleton.Instance.holder.Clear();
-
-        }
-        else
-        {
-            Debug.Log("I'll make a pass");
-        }
+        //for (int i = 0; i < 54; i++) 
+        //{
+        //    GameObject card = Instantiate(ACcard, new Vector2(0, 0), Quaternion.identity);
+        //    card.GetComponent<Image>().sprite = Resources.Load<Sprite>(packname + cardNames[i]);
+        //    if(cardNames[i][1] != "A")
+        //    card.tag = cardNames[i][1].ToString();
+        //    else
+        //    card.tag ="Ace";
+        //    cards.Add(card);
+        //}
     }
 
     public void onClick()
-    {
-
-        Destroy(readyButton);
-
+    { 
         selectButton.SetActive(true);
-        List<int> playerRand = new List<int>();
-      
 
-        while (playerRand.Count < 14)
-        {
-            int rand = Random.Range(0, cards.Count);
-            if (!playerRand.Contains(rand)){
-
-              GameObject randCard = cards[rand];
-              playerRand.Add(rand);
-              playerRand.Sort();
-            }  
-           
-        }
-     
-
-        for (var i = 0; i < 14; i++)
-        {
-           
-            GameObject rand = cards[playerRand[i]];
-            GameObject playerCard = Instantiate(rand, new Vector3(0, 0, 0), Quaternion.identity);
-            playerCard.transform.SetParent(playerArea.transform, false);
-            singleton.Instance.cardsSet.Add(playerCard);
-           
-            /*
-           GameObject enemy1Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-           enemy1Card.transform.SetParent(enemyArea1.transform, false);
-
-           GameObject enemy2Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-           enemy2Card.transform.SetParent(enemyArea2.transform, false);
-
-           GameObject enemy3Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-           enemy3Card.transform.SetParent(enemyArea3.transform, false);
-
-        */
-        }
-        //GameObject playerSelect = Instantiate(selectButton, new Vector2(634, -230), Quaternion.identity);
-        //playerSelect.transform.SetParent(canvas.transform, false);
-
-        //GameObject playerPass = Instantiate(passButton, new Vector2(634, -313), Quaternion.identity);
-        //playerPass.transform.SetParent(canvas.transform, false);
-
-        //GameObject dropPlace = Instantiate(dropzone, new Vector2(0, 0), Quaternion.identity);
-        //dropPlace.transform.SetParent(canvas.transform, false);
-
+        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+        PlayerManager = networkIdentity.GetComponent<PlayerManagerSC>();
+        PlayerManager.CmdDealCards();
 
     }
+
+    private void Update()
+    {
+
+        if(readyButton.activeSelf)
+        if(readyButton.transform.childCount == 0)
+        {
+            GameObject nrText = new GameObject("Text");
+            nrText.transform.SetParent(readyButton.transform, false);
+            nrText.AddComponent<Text>().text = "READY!!";
+            nrText.GetComponent<Text>().fontSize = 50;
+            nrText.GetComponent<Text>().color = Color.black;
+            nrText.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+            nrText.GetComponent<Text>().font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf"); ;
+            nrText.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+            nrText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+
+        }
+
+        if (selectButton.activeSelf)
+        if (selectButton.transform.childCount==0)
+        {
+            GameObject nsText = new GameObject("Text");
+            nsText.transform.SetParent(selectButton.transform, true);
+            nsText.AddComponent<Text>().text = "Pass";
+            nsText.GetComponent<Text>().fontSize = 30;
+            nsText.GetComponent<Text>().color = Color.black;
+            nsText.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+            nsText.GetComponent<Text>().font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf"); ;
+            nsText.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+            nsText.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+            nsText.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+            nsText.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+
+                if (!nsText.activeSelf)
+                    nsText.SetActive(true);
+        } 
+    }
+
+    //public void onClick()
+    //{
+
+    //    Debug.Log(readyButton.transform.childCount);
+    //    Debug.Log(selectButton.transform.childCount);
+
+    //    Destroy(readyButton);
+
+    //    selectButton.SetActive(true);
+    //    List<int> playerRand = new List<int>();
+
+
+    //    while (playerRand.Count < 14)
+    //    {
+    //        int rand = Random.Range(0, cards.Count);
+    //        if (!playerRand.Contains(rand))
+    //        {
+
+    //            GameObject randCard = cards[rand];
+    //            playerRand.Add(rand);
+    //            playerRand.Sort();
+    //        }
+
+    //    }
+
+
+    //    for (var i = 0; i < 14; i++)
+    //    {
+
+    //        GameObject rand = cards[playerRand[i]];
+    //        GameObject playerCard = Instantiate(rand, new Vector3(0, 0, 0), Quaternion.identity);
+    //        playerCard.transform.SetParent(playerArea.transform, false);
+    //        singleton.Instance.cardsSet.Add(playerCard);
+
+
+    //        /*
+    //       GameObject enemy1Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
+    //       enemy1Card.transform.SetParent(enemyArea1.transform, false);
+
+    //       GameObject enemy2Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
+    //       enemy2Card.transform.SetParent(enemyArea2.transform, false);
+
+    //       GameObject enemy3Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
+    //       enemy3Card.transform.SetParent(enemyArea3.transform, false);
+
+    //    */
+    //    }
+    //    //GameObject playerSelect = Instantiate(selectButton, new Vector2(634, -230), Quaternion.identity);
+    //    //playerSelect.transform.SetParent(canvas.transform, false);
+
+    //    //GameObject playerPass = Instantiate(passButton, new Vector2(634, -313), Quaternion.identity);
+    //    //playerPass.transform.SetParent(canvas.transform, false);
+
+    //    //GameObject dropPlace = Instantiate(dropzone, new Vector2(0, 0), Quaternion.identity);
+    //    //dropPlace.transform.SetParent(canvas.transform, false);
+
+
+    //}
 
 }

@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 51501138694872006, guid: 61cf294dda86c15429ff53818820b514, type: 3}
+      propertyPath: m_AssetId
+      value: afae06928f8df034997f90790e852d1f
+      objectReference: {fileID: 0}
     - target: {fileID: 6418432957948689102, guid: 61cf294dda86c15429ff53818820b514, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -93,7 +97,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6418432957948689713, guid: 61cf294dda86c15429ff53818820b514, type: 3}
       propertyPath: m_Name
-      value: 2Spade
+      value: 2Diamond
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7220245314622078494, guid: 61cf294dda86c15429ff53818820b514, type: 3}
+      propertyPath: m_AssetId
+      value: afae06928f8df034997f90790e852d1f
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 169606284411025326, guid: 61cf294dda86c15429ff53818820b514, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61cf294dda86c15429ff53818820b514, type: 3}
