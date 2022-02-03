@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class cardFlipper : MonoBehaviour
+public class CardFlipper : MonoBehaviour
 {
     private string packname = "Standard";
     private Sprite cardBack;

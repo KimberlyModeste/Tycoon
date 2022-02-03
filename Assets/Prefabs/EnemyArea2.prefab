@@ -93,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4656223979988060711, guid: 3271b71b898cd7e4d98e1700eed0a528, type: 3}
       propertyPath: m_Name
-      value: EnemyArea2
+      value: EnemyArea1
       objectReference: {fileID: 0}
     - target: {fileID: 7895066591637645302, guid: 3271b71b898cd7e4d98e1700eed0a528, type: 3}
       propertyPath: m_AssetId

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+
 public class SelectCard : NetworkBehaviour
 {
-    public PlayerManagerSC playerManager;
+    public PlayerManager playerManager;
 
     private bool isSelect = false;
     private bool isSelectable = true;
@@ -95,7 +96,7 @@ public class SelectCard : NetworkBehaviour
                        // name.transform.SetParent(dropzone.transform, false);
                         isSelectable = false;
                         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-                        playerManager = networkIdentity.GetComponent<PlayerManagerSC>();
+                        playerManager = networkIdentity.GetComponent<PlayerManager>();
                         playerManager.PlayCards(name);
                     }
 

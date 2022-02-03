@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3062745966174296008, guid: 0a9ed26c1a565144ebe77664d1521581, type: 3}
       propertyPath: m_Name
-      value: EnemyArea1
+      value: EnemyArea2
       objectReference: {fileID: 0}
     - target: {fileID: 3062745966174296015, guid: 0a9ed26c1a565144ebe77664d1521581, type: 3}
       propertyPath: m_Pivot.x

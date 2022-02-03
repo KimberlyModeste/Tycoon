@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerManagerSC : NetworkBehaviour
+public class PlayerManager : NetworkBehaviour
 {
 
     //Clubs
@@ -76,6 +76,7 @@ public class PlayerManagerSC : NetworkBehaviour
     public GameObject selectButton;
 
     List<GameObject> cards = new List<GameObject>();
+    private int count = 0;
 
     public override void OnStartClient()
     {
@@ -114,8 +115,9 @@ public class PlayerManagerSC : NetworkBehaviour
     public void CmdDealCards()
     {
         List<int> playerRand = new List<int>();
-           
-        if(singleton.Instance.readyPlayer < 4)
+
+        
+        if (singleton.Instance.cardsSet.Count/14 < 2)
         {
             while (playerRand.Count < 14)
             {
@@ -123,6 +125,7 @@ public class PlayerManagerSC : NetworkBehaviour
                 if (!singleton.Instance.placeHolder.Contains(rand))
                 {
                     singleton.Instance.placeHolder.Add(rand);
+                    singleton.Instance.readyPlayer = 13;
                     playerRand.Add(rand);
                     playerRand.Sort();
                 }
@@ -137,6 +140,7 @@ public class PlayerManagerSC : NetworkBehaviour
                 if (!singleton.Instance.placeHolder.Contains(rand))
                 {
                     singleton.Instance.placeHolder.Add(rand);
+                    singleton.Instance.readyPlayer = 12;
                     playerRand.Add(rand);
                     playerRand.Sort();
                 }
@@ -144,17 +148,14 @@ public class PlayerManagerSC : NetworkBehaviour
             }
         }
 
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < playerRand.Count; i++)
         {
             GameObject card = Instantiate(cards[playerRand[i]], new Vector2(0, 0), Quaternion.identity);
             NetworkServer.Spawn(card, connectionToClient);
-            RpcShowCard(card, "Dealt");
-            
-           
+            RpcShowCard(card, "Dealt", singleton.Instance.readyPlayer);
         }
 
-
-        singleton.Instance.readyPlayer++;
+        count = 0;
     }
 
     public void PlayCards(GameObject card)
@@ -165,16 +166,16 @@ public class PlayerManagerSC : NetworkBehaviour
     [Command]
     void CmdPlayCards(GameObject card)
     {
-        RpcShowCard(card, "Played");
+        RpcShowCard(card, "Played", 0);
     }
 
     [ClientRpc]
-    void RpcShowCard(GameObject card, string type)
+    void RpcShowCard(GameObject card, string type, int max)
     {
-
         if (type == "Dealt")
         {
             singleton.Instance.cardsSet.Add(card);
+           
             if (hasAuthority)
             {
                 if (readyButton.activeSelf == true)
@@ -183,17 +184,47 @@ public class PlayerManagerSC : NetworkBehaviour
             }
             else
             {
-                card.transform.SetParent(enemyArea1.transform, false);
-                card.GetComponent<cardFlipper>().Flip();
+                if (!playerArea.GetComponent<SetEnemies>().isEnemy1)
+                {
+                    card.transform.SetParent(enemyArea1.transform, false);
+                    count++;
+
+                    if (count > max)
+                    {
+                        playerArea.GetComponent<SetEnemies>().isEnemy1 = true;
+                    }
+                }
+                else if (!playerArea.GetComponent<SetEnemies>().isEnemy2)
+                {
+                    card.transform.SetParent(enemyArea2.transform, false);
+                    count++;
+                    if (count > max)
+                    {
+                        playerArea.GetComponent<SetEnemies>().isEnemy2 = true;
+                    }
+                }
+
+                else if (!playerArea.GetComponent<SetEnemies>().isEnemy3)
+                {
+                    card.transform.SetParent(enemyArea3.transform, false);
+                    count++;
+                    if (count > max)
+                    {
+                        playerArea.GetComponent<SetEnemies>().isEnemy3 = true;
+                    }
+                }
+
+
+                card.GetComponent<CardFlipper>().Flip();
             }
 
         }
-        else if(type == "Played")
-        {  
+        else if (type == "Played")
+        {
             card.transform.SetParent(dropzone.transform, false);
-            if(!hasAuthority)
+            if (!hasAuthority)
             {
-                card.GetComponent<cardFlipper>().Flip();
+                card.GetComponent<CardFlipper>().Flip();
             }
         }
     }

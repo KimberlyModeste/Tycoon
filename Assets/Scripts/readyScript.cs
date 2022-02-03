@@ -7,7 +7,7 @@ using Mirror;
 public class readyScript : NetworkBehaviour
 {
 
-    public PlayerManagerSC PlayerManager;
+    public PlayerManager PlayerManager;
     //instantiate types of cards
     //Clubs
     public GameObject ACcard;
@@ -202,7 +202,7 @@ public class readyScript : NetworkBehaviour
         selectButton.SetActive(true);
 
         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-        PlayerManager = networkIdentity.GetComponent<PlayerManagerSC>();
+        PlayerManager = networkIdentity.GetComponent<PlayerManager>();
         PlayerManager.CmdDealCards();
 
     }
@@ -244,64 +244,5 @@ public class readyScript : NetworkBehaviour
                     nsText.SetActive(true);
         } 
     }
-
-    //public void onClick()
-    //{
-
-    //    Debug.Log(readyButton.transform.childCount);
-    //    Debug.Log(selectButton.transform.childCount);
-
-    //    Destroy(readyButton);
-
-    //    selectButton.SetActive(true);
-    //    List<int> playerRand = new List<int>();
-
-
-    //    while (playerRand.Count < 14)
-    //    {
-    //        int rand = Random.Range(0, cards.Count);
-    //        if (!playerRand.Contains(rand))
-    //        {
-
-    //            GameObject randCard = cards[rand];
-    //            playerRand.Add(rand);
-    //            playerRand.Sort();
-    //        }
-
-    //    }
-
-
-    //    for (var i = 0; i < 14; i++)
-    //    {
-
-    //        GameObject rand = cards[playerRand[i]];
-    //        GameObject playerCard = Instantiate(rand, new Vector3(0, 0, 0), Quaternion.identity);
-    //        playerCard.transform.SetParent(playerArea.transform, false);
-    //        singleton.Instance.cardsSet.Add(playerCard);
-
-
-    //        /*
-    //       GameObject enemy1Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-    //       enemy1Card.transform.SetParent(enemyArea1.transform, false);
-
-    //       GameObject enemy2Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-    //       enemy2Card.transform.SetParent(enemyArea2.transform, false);
-
-    //       GameObject enemy3Card = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-    //       enemy3Card.transform.SetParent(enemyArea3.transform, false);
-
-    //    */
-    //    }
-    //    //GameObject playerSelect = Instantiate(selectButton, new Vector2(634, -230), Quaternion.identity);
-    //    //playerSelect.transform.SetParent(canvas.transform, false);
-
-    //    //GameObject playerPass = Instantiate(passButton, new Vector2(634, -313), Quaternion.identity);
-    //    //playerPass.transform.SetParent(canvas.transform, false);
-
-    //    //GameObject dropPlace = Instantiate(dropzone, new Vector2(0, 0), Quaternion.identity);
-    //    //dropPlace.transform.SetParent(canvas.transform, false);
-
-
-    //}
 
 }
