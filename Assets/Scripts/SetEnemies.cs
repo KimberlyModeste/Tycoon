@@ -17,5 +17,20 @@ public class SetEnemies : NetworkBehaviour
     public bool isEnemy3 = false;
 
     [SyncVar]
-    public int enemyCount = 0;
+    public uint myNetId = 0;
+
+    private void Start()
+    {
+        singleton.Instance.netIdHolder.Sort();
+        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+        playerManager = networkIdentity.GetComponent<PlayerManager>();
+
+        myNetId = playerManager.netId;
+
+        if(myNetId == 0)
+        {
+            myNetId = singleton.Instance.netIdHolder[0];
+        }
+    }
+
 }

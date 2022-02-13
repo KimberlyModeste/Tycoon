@@ -84,20 +84,21 @@ public class SelectCard : NetworkBehaviour
     {
         if (singleton.Instance.amountSelected > 0)
         {
+            singleton.Instance.amountCardsLeft = singleton.Instance.holder.Count;
+            int[] randArray = { -30, -15, 0, 15, 30 };
+            int randNum = Random.Range(0, 4);
             //Add cards to dropzone
             foreach (GameObject name in singleton.Instance.cardsSet)
             {
 
                 for (int i = 0; i < singleton.Instance.holder.Count; i++)
                 {
-
                     if (name.ToString() == singleton.Instance.holder[i])
                     {
-                       // name.transform.SetParent(dropzone.transform, false);
                         isSelectable = false;
                         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
                         playerManager = networkIdentity.GetComponent<PlayerManager>();
-                        playerManager.PlayCards(name);
+                        playerManager.PlayCards(name, randArray[randNum]);
                     }
 
                 }

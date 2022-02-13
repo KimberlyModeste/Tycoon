@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class PlayerManager : NetworkBehaviour
@@ -88,6 +89,10 @@ public class PlayerManager : NetworkBehaviour
         enemyArea2 = GameObject.Find("EnemyArea2");
         enemyArea3 = GameObject.Find("EnemyArea3");
         dropzone = GameObject.Find("Dropzone");
+
+
+        singleton.Instance.netIdHolder.Add(netId);
+        
     }
 
     [Server]
@@ -109,14 +114,15 @@ public class PlayerManager : NetworkBehaviour
         cards.Add(ACcard); cards.Add(ADcard); cards.Add(AHcard); cards.Add(AScard);
         cards.Add(TwoCcard); cards.Add(TwoDcard); cards.Add(TwoHcard); cards.Add(TwoScard);
         cards.Add(Joker1); cards.Add(Joker2);
-    }
 
+        //playerArea.GetComponent<SetEnemies>().myNetId = netId;
+    }
+  
     [Command]
     public void CmdDealCards()
     {
         List<int> playerRand = new List<int>();
-
-        
+         
         if (singleton.Instance.cardsSet.Count/14 < 2)
         {
             while (playerRand.Count < 14)
@@ -158,15 +164,34 @@ public class PlayerManager : NetworkBehaviour
         count = 0;
     }
 
-    public void PlayCards(GameObject card)
+    public void PlayCards(GameObject card, int num)
     {
-        CmdPlayCards(card);
+        CmdPlayCards(card, num);
     }
 
     [Command]
-    void CmdPlayCards(GameObject card)
+    void CmdPlayCards(GameObject card, int num)
     {
-        RpcShowCard(card, "Played", 0);
+        RpcShowCard(card, "Played", num);
+        if(isServer)
+        {
+            UpdateTurnsPlayed();
+        }
+    }
+
+
+    [Server]
+    void UpdateTurnsPlayed()
+    {
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.UpdateTurnsPlayed();
+        RpcLogToClients("Turns Played: " + gm.turnsPlayed);
+    }
+
+    [ClientRpc]
+    void RpcLogToClients(string message)
+    {
+        Debug.Log(message);
     }
 
     [ClientRpc]
@@ -174,8 +199,10 @@ public class PlayerManager : NetworkBehaviour
     {
         if (type == "Dealt")
         {
+
+          // if(hasAuthority)
             singleton.Instance.cardsSet.Add(card);
-           
+            //If its itself
             if (hasAuthority)
             {
                 if (readyButton.activeSelf == true)
@@ -184,48 +211,145 @@ public class PlayerManager : NetworkBehaviour
             }
             else
             {
-                if (!playerArea.GetComponent<SetEnemies>().isEnemy1)
-                {
-                    card.transform.SetParent(enemyArea1.transform, false);
-                    count++;
 
-                    if (count > max)
+                if (playerArea.GetComponent<SetEnemies>().myNetId == singleton.Instance.netIdHolder[0] || 
+                    playerArea.GetComponent<SetEnemies>().myNetId == singleton.Instance.netIdHolder[3] ||
+                    playerArea.GetComponent<SetEnemies>().myNetId == 0)
+                {
+                    if (!playerArea.GetComponent<SetEnemies>().isEnemy1)
                     {
-                        playerArea.GetComponent<SetEnemies>().isEnemy1 = true;
+                        card.transform.SetParent(enemyArea1.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy1 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy2)
+                    {
+                        card.transform.SetParent(enemyArea2.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy2 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy3)
+                    {
+                        card.transform.SetParent(enemyArea3.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy3 = true;
+                            count = 0;
+                        }
                     }
                 }
-                else if (!playerArea.GetComponent<SetEnemies>().isEnemy2)
+
+                else if (playerArea.GetComponent<SetEnemies>().myNetId == singleton.Instance.netIdHolder[1])
                 {
-                    card.transform.SetParent(enemyArea2.transform, false);
-                    count++;
-                    if (count > max)
+                    if (!playerArea.GetComponent<SetEnemies>().isEnemy1)
                     {
-                        playerArea.GetComponent<SetEnemies>().isEnemy2 = true;
+                        card.transform.SetParent(enemyArea3.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy1 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy2)
+                    {
+                        card.transform.SetParent(enemyArea1.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy2 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy3)
+                    {
+                        card.transform.SetParent(enemyArea2.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy3 = true;
+                            count = 0;
+                        }
                     }
                 }
 
-                else if (!playerArea.GetComponent<SetEnemies>().isEnemy3)
+                else if (playerArea.GetComponent<SetEnemies>().myNetId == singleton.Instance.netIdHolder[2])
                 {
-                    card.transform.SetParent(enemyArea3.transform, false);
-                    count++;
-                    if (count > max)
+                    if (!playerArea.GetComponent<SetEnemies>().isEnemy1)
                     {
-                        playerArea.GetComponent<SetEnemies>().isEnemy3 = true;
+                        card.transform.SetParent(enemyArea2.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy1 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy2)
+                    {
+                        card.transform.SetParent(enemyArea3.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy2 = true;
+                            count = 0;
+                        }
+                    }
+
+                    else if (!playerArea.GetComponent<SetEnemies>().isEnemy3)
+                    {
+                        card.transform.SetParent(enemyArea1.transform, false);
+                        count++;
+                        if (count > max)
+                        {
+                            playerArea.GetComponent<SetEnemies>().isEnemy3 = true;
+                            count = 0;
+                        }
                     }
                 }
-
 
                 card.GetComponent<CardFlipper>().Flip();
+
             }
 
         }
         else if (type == "Played")
         {
+            Debug.Log("Amount Cards Left"+singleton.Instance.amountCardsLeft);
+            Debug.Log("AmountSelected "+ singleton.Instance.amountSelected);
+            //singleton.Instance.amountCardsLeft--;
+            //if (singleton.Instance.amountCardsLeft > 1)
+            //{
+            //    dropzone.GetComponent<GridLayoutGroup>().spacing = new Vector2(-120, 0);
+            //    Debug.Log("In 120");
+            //}
+            //else
+            //{
+            //    Debug.Log("In 10");
+               
+            //}
+            dropzone.GetComponent<GridLayoutGroup>().spacing = new Vector2(-10, 0);
             card.transform.SetParent(dropzone.transform, false);
+            card.transform.Rotate(0, 0, max);
             if (!hasAuthority)
             {
                 card.GetComponent<CardFlipper>().Flip();
             }
+
         }
     }
 }

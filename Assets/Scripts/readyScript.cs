@@ -195,6 +195,7 @@ public class readyScript : NetworkBehaviour
         //    card.tag ="Ace";
         //    cards.Add(card);
         //}
+
     }
 
     public void onClick()
@@ -203,8 +204,9 @@ public class readyScript : NetworkBehaviour
 
         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
         PlayerManager = networkIdentity.GetComponent<PlayerManager>();
-        PlayerManager.CmdDealCards();
+        // Debug.Log(PlayerManager.netId);
 
+        PlayerManager.CmdDealCards();
     }
 
     private void Update()
