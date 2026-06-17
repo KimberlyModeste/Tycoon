@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 18b8c4acc910f7e4ab76d173542edeb0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - hostButton: {instanceID: 0}
+  - clientButton: {instanceID: 0}
+  - playerCountText: {instanceID: 0}
+  - playerManager: {fileID: 5902912500586676076, guid: 81fc150728924a64fa685f1ccb6f3ae9, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

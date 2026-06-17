@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 4b805e4102685704bb3be9a2a9d48f77
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerAreaPrefab: {fileID: 4851091380126318985, guid: 246cf014d58541542a9062fc164dd80a, type: 3}
+  - playerArea: {instanceID: 0}
+  - enemyAreaLeft: {instanceID: 0}
+  - enemyAreaRight: {instanceID: 0}
+  - enemyAreaUp: {instanceID: 0}
+  - dropzone: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
