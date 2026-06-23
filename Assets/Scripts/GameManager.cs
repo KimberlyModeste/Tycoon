@@ -725,7 +725,9 @@ public class GameManager : NetworkBehaviour
     {
         broadcastedCurPlayer = false;
         Debug.Log("In end turn");
-     
+
+
+        Debug.Log($"There are {finishedPlayers.Count} Players that have finished");
         if (dropzoneCards.Count > 0 && (eightPlayed || threeSpadeReversal || handcount == 0 || (playerPass.Value == (allPlayerId.Count - finishedPlayers.Count) - 1 )))
         {
             StartCoroutine(pauseBeforeContinue(handcount, playerId));
@@ -733,6 +735,9 @@ public class GameManager : NetworkBehaviour
         else
         {
 
+        }
+        if (finishedPlayers.Count < 3)
+        {
             int temp = (currentPlayer.Value + 1) % 4;
             while (finishedPlayers.Count != 4 && finishedPlayers.Contains(allPlayerId[temp]))
             {
@@ -744,6 +749,15 @@ public class GameManager : NetworkBehaviour
             showCurrentPlayerClientRpc(temp);
 
             Debug.Log($"after player set");
+        }
+        else
+        {
+            Debug.Log("We have to stop and start a new game.");
+            Debug.Log($"Hiearchy only has {hierarchy.Count} vlaues left");
+            foreach (string s in hierarchy)
+                Debug.Log(s);
+
+
 
         }
     }

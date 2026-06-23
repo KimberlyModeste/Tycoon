@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
@@ -22,10 +24,53 @@ public class NetworkUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI playerCountText;
     [SerializeField] private TMP_Dropdown playerMaxSetter;
 
+    //public struct PlayerPoints : INetworkSerializable
+    //{
+    //    ulong playerId;
+    //    int points;
+    //    FixedString64Bytes currentRank;
+
+    //    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //    public void setID(ulong pId)
+    //    {
+    //        playerId = pId;
+    //    }
+    //    public void UpdatePoints(int p)
+    //    {
+    //        points = p;
+    //    }
+    //    public void UpdateRank(FixedString64Bytes rank)
+    //    {
+    //        currentRank = rank;
+    //    }
+    //    public ulong GetPlayerId()
+    //    {
+    //        return playerId;
+    //    }
+    //    public int GetPoints()
+    //    {
+    //        return points;
+    //    }
+
+    //    public FixedString64Bytes GetRank()
+    //    {
+    //        return currentRank;
+    //    }
+    //}
+
+
     private NetworkVariable<int> playersNum = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone);
+    
     public NetworkVariable<int> playerClick = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone);
+    //public NetworkVariable<List<PlayerPoints>> pointContainer = new NetworkVariable<List<PlayerPoints>>();
+
+
     private int playerMax = 2; //Change to 4 when ready to deploy ig
    
+
     public GameObject aiPrefab;
 
 

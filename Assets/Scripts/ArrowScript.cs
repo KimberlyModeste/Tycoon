@@ -22,6 +22,7 @@ public class ArrowScript : NetworkBehaviour
    
     public void setInital()
     {
+        // Initially set on self
         transform.localPosition = new Vector3(-640, -230, 180);
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
         targetPos = new Vector3(-640, -245, 0);
@@ -30,6 +31,7 @@ public class ArrowScript : NetworkBehaviour
 
     public void SetTurnWithFutureCurrent(ulong temp)
     {
+
         //ulong pos = NetworkManager.Singleton.LocalClient.ClientId;
         //int index = GameManager.Instance.allPlayerId.IndexOf(pos);
         //ulong target = temp
@@ -99,6 +101,7 @@ public class ArrowScript : NetworkBehaviour
 
     public void Update()
     {
+        // This would be if I wanted the arrow to move  
         //transform.position = new Vector3(Mathf.PingPong(Time.time, 3), transform.position.y, transform.position.z)
         //transform.localPosition = new Vector3(Mathf.PingPong(Time.t))
 
