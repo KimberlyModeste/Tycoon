@@ -732,11 +732,7 @@ public class GameManager : NetworkBehaviour
         {
             StartCoroutine(pauseBeforeContinue(handcount, playerId));
         }
-        else
-        {
-
-        }
-        if (finishedPlayers.Count < 3)
+        else 
         {
             int temp = (currentPlayer.Value + 1) % 4;
             while (finishedPlayers.Count != 4 && finishedPlayers.Contains(allPlayerId[temp]))
@@ -749,16 +745,6 @@ public class GameManager : NetworkBehaviour
             showCurrentPlayerClientRpc(temp);
 
             Debug.Log($"after player set");
-        }
-        else
-        {
-            Debug.Log("We have to stop and start a new game.");
-            Debug.Log($"Hiearchy only has {hierarchy.Count} vlaues left");
-            foreach (string s in hierarchy)
-                Debug.Log(s);
-
-
-
         }
     }
 
