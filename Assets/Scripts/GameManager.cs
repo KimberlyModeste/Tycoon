@@ -107,6 +107,8 @@ public class GameManager : NetworkBehaviour
     // This is for seeing the order of players once
     public bool hasdoneplayerorderbool = false;
 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -362,6 +364,15 @@ public class GameManager : NetworkBehaviour
     public void settingRevolutionServerRpc()
     {
         revolution.Value = !revolution.Value;
+
+        if(revolution.Value)
+        {
+            cardRank["Joker"] = 1;
+        }
+        else
+        {
+            cardRank["Joker"] = 16;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -474,8 +485,9 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Back in startgame");
         hasStartedGame = true;
 
-        setNextPlayerServerRpc(allPlayerId.IndexOf(1));
-        showCurrentPlayerClientRpc(allPlayerId.IndexOf(1));
+        //setNextPlayerServerRpc(allPlayerId.IndexOf(1));
+        //showCurrentPlayerClientRpc(allPlayerId.IndexOf(1));
+
 
         //setNextPlayerServerRpc(allPlayerId.IndexOf(12));
         //showCurrentPlayerClientRpc(allPlayerId.IndexOf(12));
@@ -526,6 +538,8 @@ public class GameManager : NetworkBehaviour
     private IEnumerator pauseBeforeContinue(int handcount, ulong playerId)
     {
         Debug.Log("In pause before continue.");
+
+        Debug.Log($"Joker rank = {cardRank["Joker"]}");
 
         if (eightPlayed)
         {
@@ -751,9 +765,10 @@ public class GameManager : NetworkBehaviour
     public void startNextRound()
     {
         Debug.Log("Starting next round");
+
         foreach(ulong id in allPlayerId)
         {
-
+            Debug.Log("Before Rebuild list next round!");
             RebuildAIList();
             if (aiPlayersId.Contains(id) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(id, out var ai))
             {
@@ -763,18 +778,27 @@ public class GameManager : NetworkBehaviour
             }
             if (!aiPlayersId.Contains(id) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(id, out var hum))
             {
+                Debug.Log("In the players start next round");
                 Player player = hum.GetComponent<Player>();
                 player.clearHand();
+
+                Instantiate(player.ReadyButtonPrefab, player.transform, false);
+                
             }
             Debug.Log("Starting next round!");
         }
 
         finishedPlayers.Clear();
-        //setTycoonFirstPlayer();
+        setTycoonFirstPlayer();
+        NetworkUI.Instance.resetClickServerRpc();
 
 
-        //DeckManager.Instance.hasDealtCards = false;
-        //swapcards = true;
+        Debug.Log($"Before hasdealt is false");
+        DeckManager.Instance.hasDealtCards = false;
+        swapcards = true;
+        Debug.Log($"Before the retrun in startnext round");
+
+        return;
 
     }
 
@@ -783,7 +807,6 @@ public class GameManager : NetworkBehaviour
         Player player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>();
         if (player == null) return;
 
-        Debug.Log("Is changing arrow");
         player.arrow.GetComponent<ArrowScript>().SetTurn(temp);
 
     }

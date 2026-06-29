@@ -38,6 +38,7 @@ public class Player : NetworkBehaviour
     public GameObject enemyAreaUpPrefab;
     public GameObject cardPrefab;
     public GameObject arrowPrefab;
+    public GameObject ReadyButtonPrefab;
 
     public GameObject playerArea;
     public GameObject enemyAreaLeft;

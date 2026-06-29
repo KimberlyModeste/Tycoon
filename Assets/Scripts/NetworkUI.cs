@@ -103,6 +103,13 @@ public class NetworkUI : NetworkBehaviour
         playerClick.Value += 1;
     }
 
+    [ServerRpc(RequireOwnership =false)]
+    public void resetClickServerRpc()
+    {
+        playerClick.Value = 0;
+    }
+
+
     public void ChangePlayerMax(int amount)
     {
         if (amount == 0)
@@ -130,6 +137,8 @@ public class NetworkUI : NetworkBehaviour
         List<int> cardDealt = new List<int> { 13, 13, 14, 14 };
         List<int> cardNums = Enumerable.Range(0, DeckManager.Instance.deck.Count).ToList();
 
+        Debug.Log($"Deckmanager deck count: {DeckManager.Instance.deck.Count}");
+        Debug.Log($"ClientList count: {NetworkManager.Singleton.ConnectedClientsList.Count}");
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
@@ -280,7 +289,7 @@ public class NetworkUI : NetworkBehaviour
 
     private void Update()
     {
-
+        
         if(SceneManager.GetActiveScene().name == "NetworkUI")
         {
            
