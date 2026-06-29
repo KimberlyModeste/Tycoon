@@ -12,7 +12,6 @@ Get rid of all your cards.
 - Beggar: Loser of the round. Has to give 2 of their best cards to the Tycoon.
 
 ## Turns
-- The first round player is the person with the 3 of diamonds. Every other round is decided by the Tycoon.
 - The First person to play determines how many cards others play. Ex. If the first player plays a single card then all players must play single cards. If they play pairs then all others play pairs. Same with more cards.
 - If you don't want to play or can't play a card you can pass. If you have a playable card you wont be auto passed if you passed before.
 - The turn ends when all players pass.
