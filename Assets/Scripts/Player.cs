@@ -291,11 +291,32 @@ public class Player : NetworkBehaviour
     {
         GameManager.Instance.playerPassServerRpc(val, handcount, id);
     }
-
+    
 
     public void clearHand()
     {
         PlayerHandCount.Value = 0;   
+    }
+
+    public void clearTheBoard()
+    {
+        clearHand();
+        foreach(GameObject child in playerArea.gameObject.transform)
+        {
+            Destroy(child);
+        }
+        foreach(GameObject child in enemyAreaLeft.gameObject.transform)
+        {
+            Destroy(child);
+        }
+        foreach (GameObject child in enemyAreaUp.gameObject.transform)
+        {
+            Destroy(child);
+        }
+        foreach (GameObject child in enemyAreaRight.gameObject.transform)
+        {
+            Destroy(child);
+        }
     }
 
     public void Update()
@@ -319,5 +340,7 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
+
 }
 

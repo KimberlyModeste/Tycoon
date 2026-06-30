@@ -535,10 +535,46 @@ public class GameManager : NetworkBehaviour
         }
     }
     
+
+    private string setPlayerRank (ulong playerId)
+    {
+        string rank = "";
+        if (aiPlayersId.Contains(playerId) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var aiPlayer))
+        {
+            Computer com = aiPlayer.GetComponent<Computer>();
+
+            Debug.Log($"{com.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
+            rank = hierarchy.Pop();
+            Debug.Log($"This is the rank {rank}");
+            if (IsServer)
+            {
+                com.setRank(rank);
+            }
+            finishedPlayers.Add(playerId);
+            
+        }
+        if (!aiPlayersId.Contains(playerId) && NetworkManager.Singleton.ConnectedClients.TryGetValue(playerId, out var humPlayer))
+        {
+            Player player = humPlayer.PlayerObject.GetComponent<Player>();
+
+            Debug.Log($"{player.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
+            rank = hierarchy.Pop();
+            Debug.Log($"This is the rank {rank}");
+
+            if (IsOwner)
+            {
+                player.setRank(rank);
+            }
+            finishedPlayers.Add(playerId);
+        }
+        return rank;
+
+
+    }
+
     private IEnumerator pauseBeforeContinue(int handcount, ulong playerId)
     {
         Debug.Log("In pause before continue.");
-
         Debug.Log($"Joker rank = {cardRank["Joker"]}");
 
         if (eightPlayed)
@@ -550,177 +586,93 @@ public class GameManager : NetworkBehaviour
             playCounterAnimation(3);
         }
 
-        bool shouldClear = (eightPlayed || threeSpadeReversal || (playerPass.Value == (allPlayerId.Count - finishedPlayers.Count) - 1));
+
+
+        bool thirdPlayerDone = finishedPlayers.Count + 1 == 3 && handcount == 0;
+        bool shouldClear = (eightPlayed || threeSpadeReversal || (playerPass.Value == (allPlayerId.Count - finishedPlayers.Count) - 1) || thirdPlayerDone);
+        Debug.Log($"ShouldClear: {shouldClear} from {playerId} \n" +
+                  $"eightPlayed: {eightPlayed}, threeSpade: {threeSpadeReversal}, passed: {(playerPass.Value == (allPlayerId.Count - finishedPlayers.Count) - 1)}, only three players: {thirdPlayerDone}");
+
+
         if (shouldClear)
         {
             yield return new WaitForSecondsRealtime(1.5f);
             dropzoneCards.Clear();
         }
 
-        if (finishedPlayers.Count+1 == 3 && handcount == 0)
+        // This is if the Hierarchy has the last rank.
+        // If the Hierarchy doesn't contain beggar then theres no reason to do this anymore.
+        if (hierarchy.Contains("Beggar")) 
         {
-            Debug.Log("In the ai.count == 1");
-            int temp = (currentPlayer.Value + 1) % 4;
-
-            while (finishedPlayers.Count != 4 && finishedPlayers.Contains(allPlayerId[temp]))
+            int tempNextPlayer = (currentPlayer.Value + 1) % 4;
+            while (finishedPlayers.Count != 4 && finishedPlayers.Contains(allPlayerId[tempNextPlayer]))
             {
-                temp = (temp + 1) % 4;
-            }
-            ulong beggarPlayerId = allPlayerId[temp];
-
-
-            // Change the aiplayer if it is poor
-
-            if (aiPlayersId.Contains(playerId) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var aiPoorPlayer))
-            {
-                Computer poorCom = aiPoorPlayer.GetComponent<Computer>();
-
-                Debug.Log($"{poorCom.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                string rank = hierarchy.Pop();
-                Debug.Log($"This is the rank {rank}");
-
-                if (IsServer)
-                {
-                    poorCom.setRank(rank);
-                }
-                finishedPlayers.Add(playerId);
-
-            }
-            if (!aiPlayersId.Contains(playerId) && NetworkManager.Singleton.ConnectedClients.TryGetValue(playerId, out var humPoorPlayer))
-            {
-                Player poorPlayer = humPoorPlayer.PlayerObject.GetComponent<Player>();
-
-                Debug.Log($"{poorPlayer.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                string rank = hierarchy.Pop();
-                Debug.Log($"This is the rank {rank}");
-
-                if(IsOwner)
-                {
-                    poorPlayer.setRank(rank);
-                }
-                finishedPlayers.Add(playerId);
-
-
-            }
-
-            //Change the next player
-            if (aiPlayersId.Contains(playerId) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(beggarPlayerId, out var aiBegPlayer))
-            {
-                Computer begCom = aiBegPlayer.GetComponent<Computer>();
-
-                Debug.Log($"{begCom.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                string rank = hierarchy.Pop();
-                Debug.Log($"This is the rank {rank}");
-                if(IsServer)
-                {
-                    begCom.setRank(rank);
-
-                }
-                finishedPlayers.Add(playerId);
-
-            }
-            if (!aiPlayersId.Contains(playerId) && NetworkManager.Singleton.ConnectedClients.TryGetValue(beggarPlayerId, out var humBegPlayer))
-            {
-                Player begPlayer = humBegPlayer.PlayerObject.GetComponent<Player>();
-
-                Debug.Log($"{begPlayer.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                string rank = hierarchy.Pop();
-                Debug.Log($"This is the rank {rank}");
-
-                if(IsOwner)
-                {
-                    begPlayer.setRank(rank);
-                }
-                finishedPlayers.Add(playerId);
-
-            }
-
-            Debug.Log("Before next round");
-            startNextRound();
-
-        }
-        else
-        {
-            int temp = (currentPlayer.Value + 1) % 4;
-            while (finishedPlayers.Count != 4 && finishedPlayers.Contains(allPlayerId[temp]))
-            {
-                temp = (temp + 1) % 4;
+                tempNextPlayer = (tempNextPlayer + 1) % 4;
             }
 
             switch (handcount)
             {
+                /* If the player just reached handcount 0:
+                 * Set the rank. 
+                 * if the rank that was set is "Poor":
+                 *    Make the last player a beggar and start the next round
+                 * if not
+                 *    Continue to play
+                 */
                 case 0:
-                    Debug.Log($"Finished all cards an in handcount case 0");
+                    Debug.Log($"Player ID {playerId} Finished all cards an in handcount case 0");
 
-                    if (aiPlayersId.Contains(playerId) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var aiPlayer))
+                    string returnedRank = setPlayerRank(playerId);
+                    if (returnedRank == "Poor")
                     {
-                        Computer com = aiPlayer.GetComponent<Computer>();
-
-                        Debug.Log($"{com.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                        string rank = hierarchy.Pop();
-                        Debug.Log($"This is the rank {rank}");
-                        if(IsServer)
-                        {
-                            com.setRank(rank);
-                        }
-                        finishedPlayers.Add(playerId);
+                        Debug.Log($"The allPlayerID for the beggar is {allPlayerId[tempNextPlayer]}");
+                        setPlayerRank(allPlayerId[tempNextPlayer]);
+                        startNextRound();
                     }
-                    if (!aiPlayersId.Contains(playerId) && NetworkManager.Singleton.ConnectedClients.TryGetValue(playerId, out var humPlayer))
+                    else
                     {
-                        Player player = humPlayer.PlayerObject.GetComponent<Player>();
-
-                        Debug.Log($"{player.name} has finished their cards granting them the rank: {hierarchy.Peek()}");
-                        string rank = hierarchy.Pop();
-                        Debug.Log($"This is the rank {rank}");
-
-                        if(IsOwner)
-                        {
-                            player.setRank(rank);
-                        }
-                        finishedPlayers.Add(playerId);
-
+                        setNextPlayerServerRpc(tempNextPlayer);
+                        showCurrentPlayerClientRpc(tempNextPlayer);
                     }
-                    //allPlayerId.Remove(playerId);
-                    setNextPlayerServerRpc(temp);
-                    showCurrentPlayerClientRpc(temp);
                     break;
+
                 default:
-                    switch(eightPlayed)
+                    switch (eightPlayed)
                     {
                         case true:
+                            // If an eight stop has played then the current player is the new player.
                             Debug.Log("In pause befor continue just before setting player case eightplayed = true");
                             eightPlayed = false;
-                            temp = currentPlayer.Value;
-                            setNextPlayerServerRpc(temp);
-                            showCurrentPlayerClientRpc(temp);
+                            tempNextPlayer = currentPlayer.Value;
+                            setNextPlayerServerRpc(tempNextPlayer);
+                            showCurrentPlayerClientRpc(tempNextPlayer);
                             break;
                         default:
-                            switch(threeSpadeReversal)
-                            { 
+                            switch (threeSpadeReversal)
+                            {
                                 case true:
+                                    // If there is a three spade reversal then the current player is the new next player.
                                     threeSpadeReversal = false;
-                                    temp = currentPlayer.Value;
-                                    setNextPlayerServerRpc(temp);
-                                    showCurrentPlayerClientRpc(temp);
+                                    tempNextPlayer = currentPlayer.Value;
+                                    setNextPlayerServerRpc(tempNextPlayer);
+                                    showCurrentPlayerClientRpc(tempNextPlayer);
                                     break;
 
                                 default:
                                     if (playerPass.Value == allPlayerId.Count - 1)
                                     {
+                                        // If all players passed.
                                         Debug.Log($"broadcast bool passed: {broadcastedCurPlayer}");
-                                        //broadcastingPlayerClientRpc(temp);=
-                                        setNextPlayerServerRpc(temp);
-                                        showCurrentPlayerClientRpc(temp);
+                                        setNextPlayerServerRpc(tempNextPlayer);
+                                        showCurrentPlayerClientRpc(tempNextPlayer);
                                         playerPassServerRpc(0, handcount, playerId);
                                     }
                                     else
                                     {
+                                        // Regular play
                                         Debug.Log("In pause befor continue just before setting player");
-                                        //broadcastingPlayerClientRpc(currentPlayer.Value);
-                                        //setNextPlayerServerRpc(temp);
-                                        //updatingNextPlayer(temp);
-                                        setNextPlayerServerRpc(temp);
-                                        showCurrentPlayerClientRpc(temp);
+                                        setNextPlayerServerRpc(tempNextPlayer);
+                                        showCurrentPlayerClientRpc(tempNextPlayer);
 
                                     }
                                     break;
@@ -729,8 +681,9 @@ public class GameManager : NetworkBehaviour
                     }
                     break;
             }
-             
+
         }
+    
     }
 
 
@@ -764,12 +717,12 @@ public class GameManager : NetworkBehaviour
 
     public void startNextRound()
     {
-        Debug.Log("Starting next round");
+        Debug.Log($"Starting next round. allplayerid count: {allPlayerId.Count}");
 
-        foreach(ulong id in allPlayerId)
+        RebuildAIList();
+        foreach (ulong id in allPlayerId)
         {
-            Debug.Log("Before Rebuild list next round!");
-            RebuildAIList();
+            Debug.Log($"Before Rebuild list next round! Id: {id}");
             if (aiPlayersId.Contains(id) && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(id, out var ai))
             {
                 Computer com = ai.GetComponent<Computer>();
@@ -780,7 +733,7 @@ public class GameManager : NetworkBehaviour
             {
                 Debug.Log("In the players start next round");
                 Player player = hum.GetComponent<Player>();
-                player.clearHand();
+                player.clearTheBoard();
 
                 Instantiate(player.ReadyButtonPrefab, player.transform, false);
                 
@@ -964,18 +917,11 @@ public class GameManager : NetworkBehaviour
 
 
         int count = parent.childCount;
-        //for(int i = count-1; i >= 0; i--)
-        //{
-        //    //Debug.Log($"Should be killing the children: {parent.GetChild(i).gameObject.name}");
-        //    Destroy(parent.GetChild(i).gameObject);
-            
-        //}
         foreach(Transform child in parent.transform)
         {
             Debug.Log($"Should be killing the child: {child.name}");
             Destroy(child.gameObject);
         }
-        //currentCardAmount.Value = 0;
         setNextCardAmountServerRpc(0);
     }
 }
